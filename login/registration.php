@@ -1,6 +1,6 @@
 
 <html>  
-<head lang="en">  
+<head>  
     <meta charset="UTF-8">  
     <link type="text/css" rel="stylesheet" href="bootstrap-3.2.0-dist\css\bootstrap.css">  
     <title>Registration</title>  
@@ -8,6 +8,7 @@
 <style>  
     .login-panel {  
         margin-top: 150px;  
+    }   
 </style>  
 <body>  
 <div class="container">
@@ -30,10 +31,7 @@
                             <div class="form-group">  
                                 <input class="form-control" placeholder="Password" name="pass" type="password" value="">  
                             </div>  
-  
-  
                             <input class="btn btn-lg btn-success btn-block" type="submit" value="register" name="register" >  
-  
                         </fieldset>  
                     </form>  
                     <center><b>Already registered ?</b> <br></b><a href="login.php">Login here</a></center>
@@ -49,14 +47,13 @@
 
 <?php  
   
-include("database/dbconection.php");
+include "../dbconnection.php";
+
 if(isset($_POST['register']))  
 {  
     $user_name=$_POST['name'];//here getting result from the post array after submitting the form.  
     $user_pass=$_POST['pass'];//same  
     $user_email=$_POST['email'];//same  
-  
-  
     if($user_name=='')  
     {  
         //javascript use for input checking  
@@ -77,7 +74,7 @@ exit();
     }  
 //here query check weather if user already registered so can't register again.  
     $check_email_query="select * from users WHERE user_email='$user_email'";  
-    $run_query=mysqli_query($dbcon,$check_email_query);  
+    $run_query=mysqli_query($conn,$check_email_query);  
   
     if(mysqli_num_rows($run_query)>0)  
     {  
@@ -86,7 +83,7 @@ exit();
     }  
 //insert the user into the database.  
     $insert_user="insert into users (user_name,user_pass,user_email) VALUE ('$user_name','$user_pass','$user_email')";  
-    if(mysqli_query($dbcon,$insert_user))  
+    if(mysqli_query($conn,$insert_user))  
     {  
         echo"<script>window.open('welcome.php','_self')</script>";  
     }  

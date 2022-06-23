@@ -28,6 +28,17 @@ move_uploaded_file($_FILES["profilepic"]["tmp_name"],"profilepics/".$imgnewfile)
 // Query for data insertion
 $query=mysqli_query($con, "insert into tblusers(FirstName,LastName, MobileNumber, Email, Address,ProfilePic) value('$fname','$lname', '$contno', '$email', '$add','$imgnewfile' )");
 if ($query) {
+
+
+
+// function (){
+
+// 	swal("Good job!", "You clicked the button!", "error");
+	
+// }
+
+
+
 echo "<script>alert('You have successfully inserted the data');</script>";
 echo "<script type='text/javascript'> document.location ='index.php'; </script>";
 } else{

@@ -4,7 +4,7 @@ session_start();
 if(!$_SESSION['email'])  
 {  
   
-    header("Location: login.php");//redirect to the login page to secure the welcome page without login access.  
+    header("Location: ../login.php");//redirect to the login page to secure the welcome page without login access.  
 }  
   
 ?>  
@@ -22,7 +22,7 @@ if(!$_SESSION['email'])
 <?php  
 echo $_SESSION['email'];  
 ?>  
-<h1><a href="logout.php">Logout here</a> </h1>  
+<h1><a href="../logout.php">Logout here</a> </h1>  
 </body>  
   
 </html>  

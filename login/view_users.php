@@ -33,7 +33,7 @@
         </thead>  
   
         <?php  
-        include("database/db_conection.php");  
+        include("../dbconnection.php");  
         $view_users_query="select * from users";//select query for viewing users.  
         $run=mysqli_query($dbcon,$view_users_query);//here run the sql query.  
   

@@ -2,7 +2,7 @@
 session_start();//session starts here  
 ?>
 <html>  
-<head lang="en">  
+<head>  
     <meta charset="UTF-8">  
     <link type="text/css" rel="stylesheet" href="bootstrap-3.2.0-dist\css\bootstrap.css">  
     <title>Login</title>  
@@ -10,7 +10,7 @@ session_start();//session starts here
 <style>  
     .login-panel {  
         margin-top: 150px;  
-  
+    }
 </style>  
   
 <body>  
@@ -49,20 +49,20 @@ session_start();//session starts here
 
 <?php  
   
-include("database/db_conection.php");  
+include("../dbconnection.php");  
   
 if(isset($_POST['login']))  
 {  
-    $user_email=$_POST['email'];  
-    $user_pass=$_POST['pass'];  
+    $user_email=$_POST['user_email'];  
+    $user_pass=$_POST['user_pass'];  
   
     $check_user="select * from users WHERE user_email='$user_email'AND user_pass='$user_pass'";  
   
-    $run=mysqli_query($dbcon,$check_user);  
+    $run=mysqli_query($conn,$check_user);  
   
     if(mysqli_num_rows($run))  
     {  
-        echo "<script>window.open('welcome.php','_self')</script>";  
+        echo "<script>window.open('../index.php','_self')</script>";  
   
         $_SESSION['email']=$user_email;//here session is used and value of $user_email store in $_SESSION.  
   

@@ -1,16 +1,15 @@
 <html>  
-<head lang="en">  
+<head>  
     <meta charset="UTF-8">  
-    <link type="text/css" rel="stylesheet" href="bootstrap-3.2.0-dist\css\bootstrap.css">  
-    <title>Admin Login</title>  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
+    <title>Admin Login</title> 
+ 
 </head>  
-<style>  
-    .login-panel {  
-        margin-top: 150px;  
   
-</style>  
   
 <body>  
+
+<a href="../dbconnection.php">Hello world</a>
   
 <div class="container">  
     <div class="row">  
@@ -36,12 +35,16 @@
         </div>  
     </div>  
 </div>  
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>  
   
 </html>  
-  
+
 <?php  
-include("database/dbconection.php");  
+
+include_once "../dbconnection.php";  
   
 if(isset($_POST['admin_login']))
 {  
@@ -50,7 +53,7 @@ if(isset($_POST['admin_login']))
   
     $admin_query="select * from admin where admin_name='$admin_name' AND admin_pass='$admin_pass'";  
   
-    $run_query=mysqli_query($dbcon,$admin_query);  
+    $run_query=mysqli_query($conn,$admin_query);  
   
     if(mysqli_num_rows($run_query)>0)  
     {  

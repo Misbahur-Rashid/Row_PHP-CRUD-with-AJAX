@@ -9,6 +9,10 @@ $profilepic=$_GET['ppic'];
 $ppicpath="profilepics"."/".$profilepic;
 $sql=mysqli_query($con,"delete from tblusers where ID=$rid");
 unlink($ppicpath);
+
+
+
+
 echo "<script>alert('Data deleted');</script>"; 
 echo "<script>window.location.href = 'index.php'</script>";     
 } 
@@ -191,7 +195,7 @@ table.table td i {
                 </thead>
                 <tbody>
                      <?php
-$ret=mysqli_query($con,"select * from tblusers");
+$ret=mysqli_query($conn,"select * from tblusers");
 $cnt=1;
 $row=mysqli_num_rows($ret);
 if($row>0){
