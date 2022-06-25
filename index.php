@@ -7,12 +7,8 @@ if(isset($_GET['delid']))
 $rid=intval($_GET['delid']);
 $profilepic=$_GET['ppic'];
 $ppicpath="profilepics"."/".$profilepic;
-$sql=mysqli_query($con,"delete from tblusers where ID=$rid");
+$sql=mysqli_query($conn,"delete from tblusers where ID=$rid");
 unlink($ppicpath);
-
-
-
-
 echo "<script>alert('Data deleted');</script>"; 
 echo "<script>window.location.href = 'index.php'</script>";     
 } 
@@ -24,12 +20,11 @@ echo "<script>window.location.href = 'index.php'</script>";
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>CRUD</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.12.1/datatables.min.css"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <style>
 body {
     color: #566787;
@@ -174,14 +169,65 @@ table.table td i {
                 <div class="row">
                     <div class="col-sm-5">
                         <h2>User <b>Management</b></h2>
+                        </div>          
                     </div>
-                       <div class="col-sm-7" align="right">
-                        <a href="insert.php" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
+                        <div class="col-sm-8">
+                    
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="material-icons">&#xE147;</i> <span>Add New User</span>
+                        </button>
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Fill Data</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                    <div class="signup-form">
+                                    <form action="#" method="POST" enctype="multipart/form-data" >
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col"><input type="text" id="fname" class="form-control" name="fname" placeholder="First Name" required="true"></div>
+                                                <div class="col"><input type="text" id="lname" class="form-control" name="lname" placeholder="Last Name" required="true"></div>
+                                            </div>        	
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="contactno" name="contactno" placeholder="Enter your Mobile Number" required="true" maxlength="10" pattern="[0-9]+">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email id" required="true">
+                                        </div>
                                         
+                                        <div class="form-group">
+                                            <textarea class="form-control" id="address" name="address" placeholder="Enter Your Address" required="true"></textarea>
+                                        </div>  
+                                            <div class="form-group">
+                                            <input type="file" class="form-control" id="profilepic" name="profilepic"  required="true">
+                                            <span style="color:red; font-size:12px;">Only jpg / jpeg/ png /gif format allowed.</span>
+                                        </div>      
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success btn-lg btn-block" name="save">Submit</button>
+                                        </div>
+                                    </form>
+                                    <div class="text-center">View Aready Inserted Data!!  <a href="index.php">View</a></div>
+                                </div>
+                            </div>
+                            <!-- <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div> -->
+                            </div>
+                        </div>
+                        </div>
+
+                        <a href="login/login.php" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Login</span></a>              
+                        <a href="login/logout.php" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Logout</span></a>  
                     </div>
                 </div>
             </div>
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover" id="example">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -194,7 +240,7 @@ table.table td i {
                     </tr>
                 </thead>
                 <tbody>
-                     <?php
+<?php
 $ret=mysqli_query($conn,"select * from tblusers");
 $cnt=1;
 $row=mysqli_num_rows($ret);
@@ -222,13 +268,66 @@ $cnt=$cnt+1;
 <tr>
     <th style="text-align:center; color:red;" colspan="6">No Record Found</th>
 </tr>
-<?php } ?>                 
-                
-                </tbody>
+<?php } ?>                     
+            </tbody>
             </table>
-       
+                <script>
+                $(document).ready( function () {
+                $('#example').DataTable();
+                } );
+                </script>
+
+<script>
+$(document).ready(function() {
+$('#butsave').on('click', function() {
+$("#butsave").attr("disabled", "disabled");
+var fname = $('#fname').val();
+var lname = $('#lname').val();
+var email = $('#email').val();
+var contno = $('#contactno').val();
+var ppic = $('#profilepic').val();
+var add = $('#address').val();
+console.log(fname);
+if(fname!="" && lname!="" && email!="" && contno!="" && ppic!="" && add!=""){
+	$.ajax({
+		url: "insert.php",
+		type: "POST",
+		data: {
+			fname: fname,
+            lname: lname,
+			email: email,
+			contno: contactno,
+			ppic: profilepic,
+            add: address			
+		},
+		cache: false,
+		success: function(dataResult){
+			var dataResult = JSON.parse(dataResult);
+			if(dataResult.statusCode==200){
+				$("#butsave").removeAttr("disabled");
+				$('#fupForm').find('input:text').val('');
+				$("#success").show();
+				$('#success').html('Data added successfully !'); 						
+			}
+			else if(dataResult.statusCode==201){
+				alert("Error occured !");
+			}
+			
+		}
+	});
+	}
+	else{
+		alert('Please fill all the field !');
+	}
+})
+});
+</script>
+
         </div>
     </div>
 </div>     
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

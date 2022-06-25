@@ -53,8 +53,8 @@ include("../dbconnection.php");
   
 if(isset($_POST['login']))  
 {  
-    $user_email=$_POST['user_email'];  
-    $user_pass=$_POST['user_pass'];  
+    $user_email=$_POST['email'];  
+    $user_pass=$_POST['pass'];  
   
     $check_user="select * from users WHERE user_email='$user_email'AND user_pass='$user_pass'";  
   
@@ -62,7 +62,7 @@ if(isset($_POST['login']))
   
     if(mysqli_num_rows($run))  
     {  
-        echo "<script>window.open('../index.php','_self')</script>";  
+        echo "<script>window.open('view_users.php','_self')</script>";  
   
         $_SESSION['email']=$user_email;//here session is used and value of $user_email store in $_SESSION.  
   

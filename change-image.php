@@ -24,7 +24,7 @@ $imgnewfile=md5($imgfile).time().$extension;
 // Code for move image into directory
 move_uploaded_file($_FILES["profilepic"]["tmp_name"],"profilepics/".$imgnewfile);
   // Query for data insertion
-     $query=mysqli_query($con, "update tblusers set ProfilePic='$imgnewfile' where id='$uid' ");
+     $query=mysqli_query($conn, "update tblusers set ProfilePic='$imgnewfile' where id='$uid' ");
     if ($query) {
     	//Old pic
     	unlink($oldprofilepic);
@@ -146,7 +146,7 @@ body {
     <form  method="POST" enctype="multipart/form-data">
  <?php
 $eid=$_GET['userid'];
-$ret=mysqli_query($con,"select * from tblusers where ID='$eid'");
+$ret=mysqli_query($conn,"select * from tblusers where ID='$eid'");
 while ($row=mysqli_fetch_array($ret)) {
 ?>
 		<h2>Update </h2>

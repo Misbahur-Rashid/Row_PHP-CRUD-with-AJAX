@@ -1,51 +1,3 @@
-<?php 
-//Databse Connection file
-include('dbconnection.php');
-if(isset($_POST['submit']))
-  {
-  	//getting the post values
-    $fname=$_POST['fname'];
-    $lname=$_POST['lname'];
-    $contno=$_POST['contactno'];
-    $email=$_POST['email'];
-    $add=$_POST['address'];
-   $ppic=$_FILES["profilepic"]["name"];
-// get the image extension
-$extension = substr($ppic,strlen($ppic)-4,strlen($ppic));
-// allowed extensions
-$allowed_extensions = array(".jpg","jpeg",".png",".gif");
-// Validation for allowed extensions .in_array() function searches an array for a specific value.
-if(!in_array($extension,$allowed_extensions))
-{
-echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');</script>";
-}
-else
-{
-//rename the image file
-$imgnewfile=md5($imgfile).time().$extension;
-// Code for move image into directory
-move_uploaded_file($_FILES["profilepic"]["tmp_name"],"profilepics/".$imgnewfile);
-// Query for data insertion
-$query=mysqli_query($con, "insert into tblusers(FirstName,LastName, MobileNumber, Email, Address,ProfilePic) value('$fname','$lname', '$contno', '$email', '$add','$imgnewfile' )");
-if ($query) {
-
-
-
-// function (){
-
-// 	swal("Good job!", "You clicked the button!", "error");
-	
-// }
-
-
-
-echo "<script>alert('You have successfully inserted the data');</script>";
-echo "<script type='text/javascript'> document.location ='index.php'; </script>";
-} else{
-echo "<script>alert('Something Went Wrong. Please try again');</script>";
-}}
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,10 +5,8 @@ echo "<script>alert('Something Went Wrong. Please try again');</script>";
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
 <title>AJAX Crud Operation!!</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="assets/plugins/sweetalert2/sweetalert2.min.css">
-
+<link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <style>
 body {
 	color: #fff;
@@ -149,41 +99,125 @@ body {
 </style>
 </head>
 <body>
-<div class="signup-form">
-    <form  method="POST" enctype="multipart/form-data" >
+
+<!-- <div class="signup-form">
+    <form id="user_form" method="POST" enctype="multipart/form-data" >
 		<h2>Fill Data</h2>
 		<p class="hint-text">Fill below form.</p>
         <div class="form-group">
 			<div class="row">
-				<div class="col"><input type="text" class="form-control" name="fname" placeholder="First Name" required="true"></div>
-				<div class="col"><input type="text" class="form-control" name="lname" placeholder="Last Name" required="true"></div>
+				<div class="col"><input type="text" id="fname" class="form-control" name="fname" placeholder="First Name" required="true"></div>
+				<div class="col"><input type="text" id="lname" class="form-control" name="lname" placeholder="Last Name" required="true"></div>
 			</div>        	
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="contactno" placeholder="Enter your Mobile Number" required="true" maxlength="10" pattern="[0-9]+">
+            <input type="text" class="form-control" id="contactno" name="contactno" placeholder="Enter your Mobile Number" required="true" maxlength="10" pattern="[0-9]+">
         </div>
         <div class="form-group">
-        	<input type="email" class="form-control" name="email" placeholder="Enter your Email id" required="true">
+        	<input type="email" class="form-control" id="email" name="email" placeholder="Enter your Email id" required="true">
         </div>
 		
 		<div class="form-group">
-            <textarea class="form-control" name="address" placeholder="Enter Your Address" required="true"></textarea>
+            <textarea class="form-control" id="address" name="address" placeholder="Enter Your Address" required="true"></textarea>
         </div>  
              <div class="form-group">
-        	<input type="file" class="form-control" name="profilepic"  required="true">
+        	<input type="file" class="form-control" id="profilepic" name="profilepic"  required="true">
         	<span style="color:red; font-size:12px;">Only jpg / jpeg/ png /gif format allowed.</span>
         </div>      
-      
 		<div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block" name="submit">Submit</button>
+            <button type="submit" class="btn btn-success btn-lg btn-block" name="save">Submit</button>
         </div>
     </form>
 	<div class="text-center">View Aready Inserted Data!!  <a href="index.php">View</a></div>
-</div>
+</div> -->
+
+
+
+	<?php 
+//Databse Connection file
+include('dbconnection.php');
+if(isset($_POST['submit']))
+  {
+  	//getting the post values
+    $fname=$_POST['fname'];
+    $lname=$_POST['lname'];
+    $contno=$_POST['contactno'];
+    $email=$_POST['email'];
+    $add=$_POST['address'];
+   $ppic=$_FILES["profilepic"]["name"];
+// get the image extension
+$extension = substr($ppic,strlen($ppic)-4,strlen($ppic));
+// allowed extensions
+$allowed_extensions = array(".jpg","jpeg",".png",".gif");
+// Validation for allowed extensions .in_array() function searches an array for a specific value.
+if(!in_array($extension,$allowed_extensions))
+{
+//echo "<script>alert('Invalid format. Only jpg / jpeg/ png /gif format allowed');</script>";
+echo '
+<script>
+swal({
+	title: "Warning!",
+	text: "Invalid format. Only jpg / jpeg/ png /gif format allowed",
+	type: "warning",
+	confirmButtonText: "Try Again"
+	},
+	function(){
+		window.location=\'index.php\'
+		});
+	</script>
+';
+}
+else
+{
+//rename the image file
+$imgnewfile=md5($imgfile).time().$extension;
+// Code for move image into directory
+move_uploaded_file($_FILES["profilepic"]["tmp_name"],"profilepics/".$imgnewfile);
+// Query for data insertion
+$query=mysqli_query($conn, "insert into tblusers(FirstName,LastName, MobileNumber, Email, Address,ProfilePic) value('$fname','$lname', '$contno', '$email', '$add','$imgnewfile' )");
+if ($query) {
+
+//echo "<script>alert('You have successfully inserted the data');</script>";
+echo '
+<script>
+swal({
+	title: "Success!",
+	text: "You have successfully inserted the data!",
+	type: "success",
+	confirmButtonText: "Cool"
+	},
+	function(){
+		window.location=\'index.php\'
+		});
+	</script>
+';
+	}
+	else{
+//echo "<script>alert('Something Went Wrong. Please try again');</script>";
+echo '
+<script>
+swal({
+	title: "Error!",
+	text: "Something Went Wrong. Please try again!",
+	type: "error",
+	confirmButtonText: "Cool"
+	},
+	function(){
+		window.location=\'index.php\'
+		});
+	</script>
+';
+}}
+}
+?>
+	
 </body>
 </html>
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="ajax.js"></script>

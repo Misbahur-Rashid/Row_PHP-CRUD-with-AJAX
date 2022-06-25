@@ -161,7 +161,7 @@ table.table td i {
                     </div>
 <?php
 $vid=$_GET['viewid'];
-$ret=mysqli_query($con,"select * from tblusers where ID =$vid");
+$ret=mysqli_query($conn,"select * from tblusers where ID =$vid");
 $cnt=1;
 while ($row=mysqli_fetch_array($ret)) {
 

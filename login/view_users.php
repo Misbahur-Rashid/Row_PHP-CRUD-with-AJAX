@@ -35,7 +35,7 @@
         <?php  
         include("../dbconnection.php");  
         $view_users_query="select * from users";//select query for viewing users.  
-        $run=mysqli_query($dbcon,$view_users_query);//here run the sql query.  
+        $run=mysqli_query($conn,$view_users_query);//here run the sql query.  
   
         while($row=mysqli_fetch_array($run))//while look to fetch the result and store in a array $row.  
         {  
